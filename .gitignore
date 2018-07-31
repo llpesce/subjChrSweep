@@ -1,0 +1,18 @@
+#Ignore the output directories
+/experiments
+#Ignore the test directories
+/test
+#ignore the run directory content
+/run
+#Ignore compiled swift code
+*\.tic
+#in case there is any editor file
+*\.swp
+# time logs
+times_*
+#run dirs
+run_*
+#various random files
+new.input
+#log files
+*\.log

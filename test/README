@@ -1,0 +1,72 @@
+REAME for the test folder of the subjChrSweep EMEWS project
+
+Here one would test the subunits or apps that are used by the workflow before assembling them
+the workflow is meant to be used with different subunits, all of which follow the subject/chr structure 
+and atomic operation approach 
+
+##GENOTTYPE_GIVEN_ALLELES
+ 
+Using altered files from 1000 genomes from which structural variants were removed, currently in
+/lustre/beagle2/averyrobinson/1000Genomes/Altered_Files
+
+91e83514fdad88bd759e3f9241e6c5cd  /lustre/beagle2/averyrobinson/1000Genomes/Altered_Files/alt.chr4.phase3.genotypes.noSV.vcf.gz
+d45c480088625d655030c1d6df1ad190  /lustre/beagle2/averyrobinson/1000Genomes/Altered_Files/alt.chr19.phase3.genotypes.noSV.vcf.gz
+5747f8650a1c109cc6befdb2cea24a91  /lustre/beagle2/averyrobinson/1000Genomes/Altered_Files/alt.chr7.phase3.genotypes.noSV.vcf.gz
+ebef093b08212ae11f0077ec5d7a77ee  /lustre/beagle2/averyrobinson/1000Genomes/Altered_Files/alt.chr15.phase3.genotypes.noSV.vcf.gz
+b2268af8177aacb9c34fdf5b1c213db6  /lustre/beagle2/averyrobinson/1000Genomes/Altered_Files/alt.chr20.phase3.genotypes.noSV.vcf.gz
+4a32aa8351ef6ba482436ea66202f0fd  /lustre/beagle2/averyrobinson/1000Genomes/Altered_Files/alt.chr1.phase3.genotypes.noSV.vcf.gz
+b513a5c9a597adf3e979eeb5a6b93f8e  /lustre/beagle2/averyrobinson/1000Genomes/Altered_Files/alt.chr17.phase3.genotypes.noSV.vcf.gz
+77a53c5677a687a22880d80003aecfe7  /lustre/beagle2/averyrobinson/1000Genomes/Altered_Files/alt.chrY.phase3.genotypes.noSV.vcf.gz
+e054c94a261dfb2c46a9169c137311ed  /lustre/beagle2/averyrobinson/1000Genomes/Altered_Files/alt.chr9.phase3.genotypes.noSV.vcf.gz
+8e23827142be4eabdfa266d512081483  /lustre/beagle2/averyrobinson/1000Genomes/Altered_Files/alt.chr18.phase3.genotypes.noSV.vcf.gz
+e98b7b99f181e54ea2f8527ef4c52241  /lustre/beagle2/averyrobinson/1000Genomes/Altered_Files/alt.chr10.phase3.genotypes.noSV.vcf.gz
+bfd2d58b1d39d40a9a5a0d05c41dc87b  /lustre/beagle2/averyrobinson/1000Genomes/Altered_Files/alt.chr22.phase3.genotypes.noSV.vcf.gz
+1f489b107c39f3ca9e90a0dd49483eb1  /lustre/beagle2/averyrobinson/1000Genomes/Altered_Files/alt.chr6.phase3.genotypes.noSV.vcf.gz
+40e05d0809e1ec5503746c1da73f08ae  /lustre/beagle2/averyrobinson/1000Genomes/Altered_Files/alt.chrX.phase3.genotypes.noSV.vcf.gz
+6f77a202f46631b6fc1af786babc9909  /lustre/beagle2/averyrobinson/1000Genomes/Altered_Files/alt.chr14.phase3.genotypes.noSV.vcf.gz
+2378b2ca44c614524b9aad3b13ddccbf  /lustre/beagle2/averyrobinson/1000Genomes/Altered_Files/alt.chr21.phase3.genotypes.noSV.vcf.gz
+fd725d5a538e31f60a397a8259f162a6  /lustre/beagle2/averyrobinson/1000Genomes/Altered_Files/alt.chr12.phase3.genotypes.noSV.vcf.gz
+607fce7779b0a320c3f2ec898fc6a862  /lustre/beagle2/averyrobinson/1000Genomes/Altered_Files/alt.chr8.phase3.genotypes.noSV.vcf.gz
+3e3e2b7df208e377b61f19f5261ac1f6  /lustre/beagle2/averyrobinson/1000Genomes/Altered_Files/alt.chr3.phase3.genotypes.noSV.vcf.gz
+42931451ccfc4382b2b86a1d3876d4d9  /lustre/beagle2/averyrobinson/1000Genomes/Altered_Files/alt.chr11.phase3.genotypes.noSV.vcf.gz
+fd637bab21f043b31c903516096710f8  /lustre/beagle2/averyrobinson/1000Genomes/Altered_Files/alt.chr2.phase3.genotypes.noSV.vcf.gz
+c75277edb47fde71a700f5f43f0e9adb  /lustre/beagle2/averyrobinson/1000Genomes/Altered_Files/alt.chr13.phase3.genotypes.noSV.vcf.gz
+b92186dc52a08fa50f7965c8e1298cb0  /lustre/beagle2/averyrobinson/1000Genomes/Altered_Files/alt.chr16.phase3.genotypes.noSV.vcf.gz
+8df20bf32d2e5f2712e3109cbd20be3d  /lustre/beagle2/averyrobinson/1000Genomes/Altered_Files/alt.chr5.phase3.genotypes.noSV.vcf.gz
+
+#Headers need to be modified (change length of chrM and names of chr contigs, see relevant Usage__ file)
+# and file needs to be reindexed
+for file in  /lustre/beagle2/averyrobinson/1000Genomes/Altered_Files/alt.*.phase3.genotypes.noSV.vcf.gz; do 
+ alleles=$(basename $file)
+ bgzip -c header.tmp >$alleles
+ zcat $file | tail -n+254 | bgzip -c >>$alleles
+ /soft/gatk/4.0.3.0/gatk IndexFeatureFile  --feature-file $alleles
+done
+
+Redo md5sums of bgzipped files 
+
+0318d2e58ea20a51693e2f56f9473944  ./alt.chr4.phase3.genotypes.noSV.vcf.gz
+4f2700bbc40e3aabd2a7e09f06f8bcd4  ./alt.chr19.phase3.genotypes.noSV.vcf.gz
+4817446c35b9b37d268cc4ab33a77f77  ./alt.chr7.phase3.genotypes.noSV.vcf.gz
+4abe26c620536b5250c6275f77109448  ./alt.chr15.phase3.genotypes.noSV.vcf.gz
+29308300cfbffb48239b2784b47266ec  ./alt.chr20.phase3.genotypes.noSV.vcf.gz
+f0b8c7f25f4b5258341debf365f84fb7  ./alt.chr1.phase3.genotypes.noSV.vcf.gz
+93c5af21ca3734fc22f80128c95163a6  ./alt.chr17.phase3.genotypes.noSV.vcf.gz
+395fadd4a63461fddac6ef28d7dcd79c  ./alt.chrY.phase3.genotypes.noSV.vcf.gz
+f285d057fa42a0b6b12f20853c1ed524  ./alt.chr9.phase3.genotypes.noSV.vcf.gz
+a336d828bf445e002ecff0f7a11bcc3f  ./alt.chr18.phase3.genotypes.noSV.vcf.gz
+74da2ee6bce6e23ed4472fa7d11aba8c  ./alt.chr10.phase3.genotypes.noSV.vcf.gz
+de8b4c778f7e51d4969ac76ea2828583  ./alt.chr22.phase3.genotypes.noSV.vcf.gz
+5f6b297cce1b8bca02b8857397851dda  ./alt.chr6.phase3.genotypes.noSV.vcf.gz
+c66516aaeaded31b394e66a16125f5ed  ./alt.chrX.phase3.genotypes.noSV.vcf.gz
+21968c7c47a29343cea7d64c62a15481  ./alt.chr14.phase3.genotypes.noSV.vcf.gz
+21ed8fa648039ce186a63efdaabdeb60  ./alt.chr21.phase3.genotypes.noSV.vcf.gz
+c8afdd3b248515157135cef3a1c87988  ./alt.chr12.phase3.genotypes.noSV.vcf.gz
+e9dac71b9379af5b6cb53d191146ab99  ./alt.chr8.phase3.genotypes.noSV.vcf.gz
+c21c4184d82da77e28da36e41779b202  ./alt.chr3.phase3.genotypes.noSV.vcf.gz
+2e7ced2cb63067d4ebf31fb4c0f651aa  ./alt.chr11.phase3.genotypes.noSV.vcf.gz
+8c3605d0003691a217f06163e09aba77  ./alt.chr2.phase3.genotypes.noSV.vcf.gz
+48e00ba5cd01d62578a2f2af53e9dee2  ./alt.chr13.phase3.genotypes.noSV.vcf.gz
+b4233e05f0de3eafdbb42449ef95006b  ./alt.chr16.phase3.genotypes.noSV.vcf.gz
+1c4ccc3f1cec0359552bba1d73fbfbcd  ./alt.chr5.phase3.genotypes.noSV.vcf.gz
+

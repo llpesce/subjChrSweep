@@ -1,9 +1,10 @@
 #Ignore the output directories
 /experiments
-#Ignore the test directories
-/test
 #ignore the run directory content
 /run
+#ignore vcf and bam files
+*\.vcf
+*\.bam
 #Ignore compiled swift code
 *\.tic
 #in case there is any editor file

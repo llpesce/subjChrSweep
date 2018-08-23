@@ -1,9 +1,9 @@
 #!/bin/bash
 
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 set -eu
 
 module load sun-java/jdk1.8.0_60
-
 
 # Check for an optional timeout threshold in seconds. If the duration of the
 # model run as executed below, takes longer that this threshhold
@@ -32,6 +32,7 @@ fi
 # param_line is the string containing the model parameters for a run.
 param_line=$1
 
+logfile=$(basename $(dirname $param_line))".log"
 outfile=$(basename $(dirname $param_line))".vcf"
 
 # Set emews_root to the root directory of the project (i.e. the directory
@@ -46,11 +47,16 @@ cd $instance_directory
 # TODO: Define the command to run the model. For example,
 # MODEL_CMD="python"
 #MODEL_CMD="java  -Xmx4g -jar /soft/snpeff/4.3/snpEff/snpEff.jar -c /soft/snpeff/4.3/snpEff/snpEff.config -v GRCh37.75 "
-MODEL_CMD="java" 
+#MODEL_CMD="java" 
+MODEL_CMD="sh" 
 # TODO: Define the arguments to the MODEL_CMD. Each rguments should be
 # surrounded by quotes and separated by spaces. For example,
 # arg_array=("$emews_root/python/nt3_tc1_runner.py" "$parameter_string")
-arg_array=("-Xmx8g" "-jar /soft/snpeff/4.3/snpEff/snpEff.jar" "-c /soft/snpeff/4.3/snpEff/snpEff.config" "-v GRCh37.75"  "$param_line")
+#Commnd for SNPEFF
+#arg_array=("-Xmx8g" "-jar /soft/snpeff/4.3/snpEff/snpEff.jar" "-c /soft/snpeff/4.3/snpEff/snpEff.config" "-v GRCh37.75"  "$param_line" ">$outfile")
+#Commnd for haplotypecaller for all calls in region
+arg_array=("${DIR}/Genotype_given_alleles.sh" "3.7"  "$param_line")
+#arg_array=("${DIR}/Genotype_given_alleles.sh" "4.0"  "$param_line")
 COMMAND="$MODEL_CMD ${arg_array[@]}"
 
 # Turn bash error checking off. This is
@@ -59,7 +65,7 @@ COMMAND="$MODEL_CMD ${arg_array[@]}"
 set +e
 echo "Running $COMMAND"
 
-$TIMEOUT_CMD $COMMAND  >$outfile
+$TIMEOUT_CMD $COMMAND  >$logfile
 # $? is the exit status of the most recently executed command (i.e the
 # line above)
 RES=$?

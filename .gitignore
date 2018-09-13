@@ -17,3 +17,7 @@ run_*
 new.input
 #log files
 *\.log
+#Ignore tests
+test/
+#Ignore data subfolders
+data/*/

@@ -8,15 +8,16 @@ chr=${rootFileName#*.}
 output=${rootFileName}.alleles.vcf
 log=${rootFileName}.alleles.log
 #File without multiallelic, copy numbers and gene specific
-if [ "$chr" == "chr11" ]; then
- alleleFile=/lustre/beagle2/averyrobinson/1000Genomes/Altered_Files/alt.${chr}.phase3.genotypes.noSVCN.noMULTI.MYBPC3.vcf.gz 
-elif [ "$chr" == "chr14" ]; then
- alleleFile=/lustre/beagle2/averyrobinson/1000Genomes/Altered_Files/alt.${chr}.phase3.genotypes.noSVCN.noMULTI.MYH7.vcf.gz 
-else
- alleleFile=/lustre/beagle2/averyrobinson/1000Genomes/Altered_Files/alt.${chr}.phase3.genotypes.noSVCN.noMULTI.TTR.vcf.gz 
-fi
+#For the single gene files
+#if [ "$chr" == "chr11" ]; then
+# alleleFile=/lustre/beagle2/averyrobinson/1000Genomes/Altered_Files/alt.${chr}.phase3.genotypes.noSVCN.noMULTI.MYBPC3.vcf.gz 
+#elif [ "$chr" == "chr14" ]; then
+# alleleFile=/lustre/beagle2/averyrobinson/1000Genomes/Altered_Files/alt.${chr}.phase3.genotypes.noSVCN.noMULTI.MYH7.vcf.gz 
+#else
+# alleleFile=/lustre/beagle2/averyrobinson/1000Genomes/Altered_Files/alt.${chr}.phase3.genotypes.noSVCN.noMULTI.TTR.vcf.gz 
+#fi
 #File without multiallelic
-#alleleFile=/lustre/beagle2/averyrobinson/1000Genomes/Altered_Files/alt.${chr}.phase3.genotypes.noSVCN.noMULTI.vcf.gz 
+alleleFile=/lustre/beagle2/averyrobinson/1000Genomes/Altered_Files/alt.${chr}.phase3.genotypes.noSVCN.noMULTI.vcf.gz 
 #alleleFile=/lustre/beagle2/averyrobinson/1000Genomes/Altered_Files/alt.${chr}.phase3.genotypes.noSV.noMULTI.vcf.gz
 #File without structural variants
 #alleleFile=/lustre/beagle2/lpesce/Megan/subjChrSweep/data/Genotype_given_alleles/alt.${chr}.phase3.genotypes.noSV.vcf.gz

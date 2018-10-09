@@ -65,14 +65,20 @@ COMMAND="$MODEL_CMD ${arg_array[@]}"
 set +e
 echo "Running $COMMAND"
 
+failedlog="$instance_directory}/failed_run.log" #each run of the swarm will log its failure (if any)
+[ -e "$failedlog" ] && rm $failedlog #If for any reason there is a failure log, remove it
+
 $TIMEOUT_CMD $COMMAND  >$logfile
 # $? is the exit status of the most recently executed command (i.e the
 # line above)
 RES=$?
 if [ "$RES" -ne 0 ]; then
 	if [ "$RES" == 124 ]; then
-    echo "---> Timeout error in $COMMAND"
+    echo "---> Timeout error in $COMMAND" >>$failedlog
   else
-	   echo "---> Error in $COMMAND"
+	   echo "---> Error in $COMMAND" >>$failedlog
   fi
 fi
+
+exit 0 #never return an error exit value, let the rest of the swarm run
+

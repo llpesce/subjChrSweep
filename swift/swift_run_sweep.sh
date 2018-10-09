@@ -24,14 +24,14 @@ check_directory_exists
 
 
 # TODO edit the number of processes as required.
-export PROCS=100
+export PROCS=600
 
 # TODO edit QUEUE, WALLTIME, PPN, AND TURNBINE_JOBNAME
 # as required. Note that QUEUE, WALLTIME, PPN, AND TURNBINE_JOBNAME will
 # be ignored if the MACHINE variable (see below) is not set.
 export PROJECT=CI-MCB000126
 export QUEUE=batch
-export WALLTIME=10:10:00
+export WALLTIME=10:00:00:00
 export PPN=4
 export TURBINE_JOBNAME="${EXPID}_job"
 
@@ -66,4 +66,4 @@ log_script
 # echo's anything following this standard out
 set -x
 
-swift-t -n $PROCS $MACHINE -p $EMEWS_PROJECT_ROOT/swift/swift_run_sweep.swift -f="$EMEWS_PROJECT_ROOT/data/input.txt" $CMD_LINE_ARGS
+swift-t -n $PROCS $MACHINE -p $EMEWS_PROJECT_ROOT/swift/swift_run_sweep.swift -f="$EMEWS_PROJECT_ROOT/data/input.txt_1_1" $CMD_LINE_ARGS

@@ -56,15 +56,17 @@ find $(cat turbine-directory.txt )  -name \*"$myExt" -and -not -empty >tmp
 #compare the to files 
 diff <(sed 's/\.log//' complete.log) <(sed 's/\.vcf\.idx//' tmp) 
 #find the input files that already ran
-for file in $(cat tmp); do tmp=$(dirname $file); chr=$(basename $tmp); ID=$(basename $(dirname $tmp)); grep $ID ../../data/input.txt_1 | grep -w $chr ; done  >tmp2
+#WARNING HARCODED INPUT FILE!!
+inputFile=${subjChrSweepRoot}/data/input.txt_2
+for file in $(cat tmp); do tmp=$(dirname $file); chr=$(basename $tmp); ID=$(basename $(dirname $tmp)); grep $ID $inputFile | grep -w $chr ; done  >tmp2
 #find their corresponding input files, note that we are looking into the  "data" folder: this assumes that the file
 #(or its folder) has the same name as the output file
 #for file in $(cat tmp); do grep $(basename $file | sed 's@'"$myExt"'@@') ${subjChrSweepRoot}/data/input.txt    ; done  >tmp1
 #because of non unique naming there are some files that might be picked off twice, we need to eliminate those
 #sort tmp1 | uniq >tmp2
 #find the ones that did not run
-diff -u <(sort tmp2) <(sort ${subjChrSweepRoot}/data/input.txt) | grep -E "^\+"
-# Hack away the "+" and shove into new input 
+diff -u <(sort tmp2) <(sort $inputFile) | grep -E "^\+" | sed 's/^\+//'
+# Hack away the "+", remove first line and shove into new input 
 #Clean the run directory from failed and exploded runs
 find $(cat turbine-directory.txt )  -name \*"alleles.log" -exec grep -L "ProgressMeter -            done" {} \;> incomplete.log
 #Check that such files in fact do not have an idx file -- no return means there is no such file
@@ -72,3 +74,9 @@ sed 's/\.log/\.vcf\.idx/' incomplete.log | xargs ls {} 2>/dev/null
 #Remove incomple files
 for file in $(cat incomplete.log); do rm $(dirname $file)/* ; done
 #rerun with new input file
+
+#Update the repo
+eval "$(ssh-agent -s)"
+ssh-add  ~/.ssh/id_github
+git push
+

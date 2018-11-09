@@ -51,7 +51,7 @@ myExt='.vcf.idx'
 #find the ones that ran and are not empty, go into the folder where the job was run (subfolder of subfolder run)
 find $(cat turbine-directory.txt )  -name \*"$myExt" -and -not -empty | wc
 #Check the log file for completion statements
-find $(cat turbine-directory.txt )  -name \*".log" -exec grep -l "ProgressMeter -            done" {} \;> complete.log
+find $(cat turbine-directory.txt )  -name \*".alleles.log" -exec grep -l "ProgressMeter -            done" {} \;> complete.log
 find $(cat turbine-directory.txt )  -name \*"$myExt" -and -not -empty >tmp
 #compare the to files 
 diff <(sed 's/\.log//' complete.log) <(sed 's/\.vcf\.idx//' tmp) 
@@ -74,6 +74,10 @@ sed 's/\.log/\.vcf\.idx/' incomplete.log | xargs ls {} 2>/dev/null
 #Remove incomple files
 for file in $(cat incomplete.log); do rm $(dirname $file)/* ; done
 #rerun with new input file
+
+#To find the total size of the vcf files
+find ../experiments/GENOTYPE_ALL_[1,2]  -name \*".alleles.vcf" -exec du -ch {} + >VCFsize.txt
+grep total$ VCFsize.txt | cut -f1 | awk '{ total += $1 }; END { print total }'
 
 #Update the repo
 eval "$(ssh-agent -s)"

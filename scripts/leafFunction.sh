@@ -55,7 +55,9 @@ MODEL_CMD="sh"
 #Commnd for SNPEFF
 #arg_array=("-Xmx8g" "-jar /soft/snpeff/4.3/snpEff/snpEff.jar" "-c /soft/snpeff/4.3/snpEff/snpEff.config" "-v GRCh37.75"  "$param_line" ">$outfile")
 #Commnd for haplotypecaller for all calls in region
-arg_array=("${DIR}/Genotype_given_alleles.sh" "3.7"  "$param_line")
+#arg_array=("${DIR}/Genotype_given_alleles.sh" "3.7"  "$param_line")
+#bgzip, tabix and md5 vcfs
+arg_array=("${DIR}/bgzipTabix.sh" "$param_line")
 #arg_array=("${DIR}/Genotype_given_alleles.sh" "4.0"  "$param_line")
 COMMAND="$MODEL_CMD ${arg_array[@]}"
 

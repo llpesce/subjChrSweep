@@ -28,10 +28,11 @@ app (void o) make_dir(string dirname) {
   string upf_lines[] = file_lines(upf);
   foreach s,i in upf_lines {
     #extract directory tree parts necessary for naming output
-    string tokens[] = split(s,delimiter="/"); #Subject id
-    string stokens[] = split(tokens[6],delimiter="."); #chromosome id
+    string tokens[] = split(s,delimiter="/"); #split folder tree
+    string stokens[] = split(tokens[8],delimiter="."); #pick the last item: basename differs for different jobs
     #string instance = "%s/instance_%i/" % (turbine_output, i+1);
-    string instance = "%s/%s/%s/" % (turbine_output, tokens[5],stokens[1]);
+    #string instance = "%s/%s/%s/" % (turbine_output, tokens[5],stokens[1]); #genotype_givenAlleles: use ID and chr assuming the file name fits
+    string instance = "%s/%s/%s/" % (turbine_output, tokens[6],stokens[1]); #BGZIP use ID and chr assuming the file name fits
     make_dir(instance) => {
       file out <instance+"out.txt">;
       file err <instance+"err.txt">;

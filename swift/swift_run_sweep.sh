@@ -11,7 +11,7 @@ fi
 
 # uncomment to turn on swift/t logging. Can also set TURBINE_LOG,
 # TURBINE_DEBUG, and ADLB_DEBUG to 0 to turn off logging
-# export TURBINE_LOG=1 TURBINE_DEBUG=1 ADLB_DEBUG=1
+ export TURBINE_LOG=1 TURBINE_DEBUG=1 ADLB_DEBUG=1
 export EMEWS_PROJECT_ROOT=$( cd $( dirname $0 )/.. ; /bin/pwd )
 # source some utility functions used by EMEWS in this script
 source "${EMEWS_PROJECT_ROOT}/etc/emews_utils.sh"
@@ -24,15 +24,15 @@ check_directory_exists
 
 
 # TODO edit the number of processes as required.
-export PROCS=600
+export PROCS=640
 
 # TODO edit QUEUE, WALLTIME, PPN, AND TURNBINE_JOBNAME
 # as required. Note that QUEUE, WALLTIME, PPN, AND TURNBINE_JOBNAME will
 # be ignored if the MACHINE variable (see below) is not set.
 export PROJECT=CI-MCB000126
 export QUEUE=batch
-export WALLTIME=10:00:00:00
-export PPN=4
+export WALLTIME=10:00:00
+export PPN=32
 export TURBINE_JOBNAME="${EXPID}_job"
 
 # if R cannot be found, then these will need to be
@@ -66,4 +66,4 @@ log_script
 # echo's anything following this standard out
 set -x
 
-swift-t -n $PROCS $MACHINE -p $EMEWS_PROJECT_ROOT/swift/swift_run_sweep.swift -f="$EMEWS_PROJECT_ROOT/data/input.txt_2_2" $CMD_LINE_ARGS
+swift-t -n $PROCS $MACHINE -p $EMEWS_PROJECT_ROOT/swift/swift_run_sweep.swift -f="$EMEWS_PROJECT_ROOT/data/input.txt" $CMD_LINE_ARGS
